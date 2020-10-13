@@ -1,0 +1,14 @@
+{
+  "name": "request-validator",
+  "version": "1.0.0",
+  "description": "Extension to make web request validations easier",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/test.js"
+  },
+  "author": "Carlos Enrique Simá Tzún",
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^8.1.3"
+  }
+}

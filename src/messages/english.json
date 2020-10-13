@@ -1,0 +1,29 @@
+{
+    "bad_request": {
+        "not_match_type_in_object": "The type for '[ID]' must be '[TYPE]'.",
+        "not_match_type_in_array": "A value inside of '[ID]' must be '[TYPE]'.",
+        "unknown_type": "Type '[TYPE]' is unrecognized for '[ID]'.",
+        "wrong_minimum_items_in_object": "The minimum of items for '[ID]' are [MIN_ITEMS].",
+        "wrong_minimum_items_in_array": "The minimum of items for a value inside of '[ID]' are [MIN_ITEMS].",
+        "wrong_maximum_items_in_object": "The maximum of items for '[ID]' are [MAX_ITEMS].",
+        "wrong_maximum_items_in_array": "The maximum of items for a value inside of '[ID]' are [MAX_ITEMS].",
+        "wrong_exact_items_in_object": "The number of items for '[ID]' must be [EXACT_ITEMS].",
+        "wrong_exact_items_in_array": "The number of items for a value inside of '[ID]' must be [EXACT_ITEMS].",
+        "wrong_minimum_length_in_object": "The minimum length for '[ID]' is [MIN_LENGTH].",
+        "wrong_minimum_length_in_array": "The minimum length for a value inside of '[ID]' is [MIN_LENGTH].",
+        "wrong_maximum_length_in_object": "The maximum length for '[ID]' is [MAX_LENGTH].",
+        "wrong_maximum_length_in_array": "The maximum length for a value inside of '[ID]' is [MAX_LENGTH].",
+        "wrong_exact_length_in_object": "The length for '[ID]' must be [EXACT_LENGTH].",
+        "wrong_exact_length_in_array": "The length for a value inside of '[ID]' must be [EXACT_LENGTH].",
+        "wrong_pattern_in_object": "The pattern for '[ID]' is incorrect.",
+        "wrong_pattern_in_array": "The pattern for a value inside of '[ID]' is incorrect.",
+        "value_required_in_object": "The value for '[ID]' is required.  It cannot be undefined, null or NaN.",
+        "value_required_in_array": "Values inside of '[ID]' are required.  These cannot be undefined, null or NaN.",
+        "property_path":"The path of the fail value is [PATH]."
+    },
+    "bad_configuration":{
+        "not_found_regex_type": "The regex type is undefined",
+        "not_found_regex_languague": "The regex fails messages languague is undefined",
+        "not_found_regex_message": "The regex fail message is undefined"
+    }
+}

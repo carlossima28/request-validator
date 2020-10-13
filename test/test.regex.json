@@ -1,0 +1,48 @@
+{
+    "regex": {
+        "key": "^(?=.{2,40}$)(?!.*[_]{2})[a-z_]+[a-z0-9_]+$",
+        "sensitive_key": "^(?=.{2,40}$)(?!.*[_]{2})[a-zA-Z_]+[a-zA-Z0-9_]+$",
+        "sensitive_key2": "^(?=.{2,40}$)(?!.*[_]{2})[a-zA-Z0-9_]+$",
+        "name": "^[a-zA-ZáéíóúÁÉÍÓÚ\\s0-9&\\-\\.\/ñÑ]{2,50}$",
+        "name_free": "^[a-zA-ZáéíóúÁÉÍÓÚ\\s0-9&\\-\\.\/ñÑ]$",
+        "password": "^(?=.*?[A-ZÑ])(?=.*?[a-zñ])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,40}$",
+        "date": "^(\\d{4})+\\-+(\\d{2})+\\-+(\\d{2})$",
+        "date_time": "^(\\d{4})+\\-+(\\d{2})+\\-+(\\d{2})+(\\s|T)+(\\d{2})+\\:+(\\d{2})+\\:+(\\d{2})$",
+        "alert": "^(info|danger|warning|success)$",
+        "url": "[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)?",
+        "postgres_type": "^(json|float|text|int|boolean)$",
+        "property": "^(?=.{1,40}$)[a-zA-Z_]+[a-zA-Z0-9_]+$",
+        "status_a_s": "^(A|S)$",
+        "status_a_p": "^(A|P)$",
+        "bool": "^(true|false)$",
+        "int": "^(-?\\d){1,10}$",
+        "float": "^-?\\d{1,10}(\\.\\d+)?$",
+        "email": "(^(?=.{3,40}$)[a-zA-Z0-9_\\.-ñÑ]+@[\\da-zA-Z\\.-ñÑ]+\\.[\\da-zA-Z\\.-ñÑ]+$)",
+        "mtc": "^[^&\/\\<>\"';]$",
+        "js_type": "^(object|number|boolean|string)$"
+    },
+    "message": {
+        "english": {
+            "key": "Only lowercase letters, numbers, and the special character '_' are allowed. The string cannot start with a number or use the special character '_' twice consecutively. The size of the string should must a length between 2 and 40.",
+            "key_sensitive": "Only letters, numbers, and the special character '_' are allowed. The string cannot start with a number or use the special character '_' twice consecutively. The size of the string must be a length between 2 and 40.",
+            "key_sensitive2": "Only letters, numbers, and the special character '_' are allowed. The string cannot use the special character '_' twice consecutively. The size of the string must be a length between 2 and 40.",
+            "name": "Only letters, spaces, numbers and the following special characters (- /. &) are allowed. The size of the string must be a length between 2 and 50.",
+            "name_free": "Only letters, spaces, numbers and the following special characters (- /. &) are allowed.",
+            "password": "The password must contain at least one number, one uppercase letter, one lowercase letter, and one of the following special characters (#?! @ $% ^ & * -). The size of the string must be a length between 8 and 40.",
+            "date": "Date with format 'yyyy-mm-dd'.",
+            "date_time": "Datetime with format 'yyyy-mm-dd hh:mm:ss'.",
+            "alert": "Only one of the following keywords is allowed: 'info', 'danger', 'warning' or 'success'.",
+            "url": "The string must be in URL format.",
+            "postgres_type": "Only one of the following keywords is allowed: 'json', 'float', 'text' 'int' or 'boolean'.",
+            "property": "Only numbers, upper and lower case letters and the special character '_' are allowed. The string cannot start with a number. The size of the string must be a length between 1 and 40.",
+            "status_a_s": "Only one of the following values ​​is allowed: 'A' (Activate) and 'S' (Suspend).",
+            "status_a_p": "Only one of the following values ​​is allowed: 'A' (Activate) and 'P' (Pending).",
+            "bool": "The value must be 'true' or 'false'.",
+            "mtc": "The following characters are not allowed (^&\/\\<>\"';).",
+            "int": "The string must have an integer number format",
+            "float": "The string must have an decimal number format",
+            "email": "The string must be in email format",
+            "js_type": "Only one of the following keywords is allowed: 'object', 'number', 'boolean' or 'string'."
+        }
+    }
+}
