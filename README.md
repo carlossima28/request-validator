@@ -1,6 +1,6 @@
 # Instalation
 
-`npm install request-validator --save`
+`npm install request-validator-csima --save`
 
 # Description
 
@@ -38,7 +38,7 @@ Parameter **configuration**
             "email": "The string must be in email format"
         },
         "spanish": {
-            "password": "La contraseña debe contener al menos un número, una letra minúscula, una letra mayúscula...",
+            "password": "La contraseña debe contener al menos un número, una letra minúscula...",
             "email": "La cadena debe estar en formato de correo electrónico",
         }
     }
