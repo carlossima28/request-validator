@@ -1,7 +1,7 @@
 obj = {
   success: {
     "success-type-string": {
-      config:{
+      config: {
         remove_unknown: true
       },
       resp: {
@@ -19,7 +19,7 @@ obj = {
       }]
     },
     "success-type-boolean": {
-      config:{
+      config: {
         remove_unknown: true
       },
       resp: {
@@ -37,7 +37,7 @@ obj = {
       }]
     },
     "success-type-number": {
-      config:{
+      config: {
         remove_unknown: true
       },
       resp: {
@@ -55,7 +55,7 @@ obj = {
       }]
     },
     "success-type-object": {
-      config:{
+      config: {
         remove_unknown: true
       },
       resp: {
@@ -73,7 +73,7 @@ obj = {
       }]
     },
     "success-type-array": {
-      config:{
+      config: {
         remove_unknown: true
       },
       resp: {
@@ -91,7 +91,7 @@ obj = {
       }]
     },
     "success-min-items-object": {
-      config:{
+      config: {
         remove_unknown: true
       },
       resp: {
@@ -114,7 +114,7 @@ obj = {
       }]
     },
     "success-max-items-object": {
-      config:{
+      config: {
         remove_unknown: true
       },
       resp: {
@@ -145,7 +145,7 @@ obj = {
       }]
     },
     "success-exact-items-object": {
-      config:{
+      config: {
         remove_unknown: true
       },
       resp: {
@@ -176,7 +176,7 @@ obj = {
       }]
     },
     "success-min-items-array": {
-      config:{
+      config: {
         remove_unknown: true
       },
       resp: {
@@ -195,7 +195,7 @@ obj = {
       }]
     },
     "success-max-items-array": {
-      config:{
+      config: {
         remove_unknown: true
       },
       resp: {
@@ -214,7 +214,7 @@ obj = {
       }]
     },
     "success-exact-items-array": {
-      config:{
+      config: {
         remove_unknown: false
       },
       resp: {
@@ -233,7 +233,7 @@ obj = {
       }]
     },
     "success-min-length-string": {
-      config:{
+      config: {
         remove_unknown: false
       },
       resp: {
@@ -252,7 +252,7 @@ obj = {
       }]
     },
     "success-max-length-string": {
-      config:{
+      config: {
         remove_unknown: false
       },
       resp: {
@@ -271,7 +271,7 @@ obj = {
       }]
     },
     "success-exact-length-string": {
-      config:{
+      config: {
         remove_unknown: false
       },
       resp: {
@@ -290,7 +290,7 @@ obj = {
       }]
     },
     "success-properties-object": {
-      config:{
+      config: {
         remove_unknown: false
       },
       resp: {
@@ -344,7 +344,7 @@ obj = {
       }]
     },
     "success-item-type-array": {
-      config:{
+      config: {
         remove_unknown: false
       },
       resp: {
@@ -365,7 +365,7 @@ obj = {
       }]
     },
     "success-regex_type-string": {
-      config:{
+      config: {
         remove_unknown: false
       },
       resp: {
@@ -384,7 +384,7 @@ obj = {
       }]
     },
     "success-item-regex_type-array": {
-      config:{
+      config: {
         remove_unknown: false
       },
       resp: {
@@ -406,7 +406,7 @@ obj = {
       }]
     },
     "success-required-string": {
-      config:{
+      config: {
         remove_unknown: false
       },
       resp: {
@@ -425,7 +425,7 @@ obj = {
       }]
     },
     "success-reference-required-object": {
-      config:{
+      config: {
         remove_unknown: false
       },
       resp: {
@@ -478,7 +478,7 @@ obj = {
       }]
     },
     "success-remove_unknown": {
-      config:{
+      config: {
         remove_unknown: true
       },
       resp: {
@@ -503,12 +503,81 @@ obj = {
           id: "sex",
           type: "string",
           required: false
-        },{
+        }, {
           id: "name",
-          type: "string"         
+          type: "string"
         }]
       }]
-    }
+    },
+    "success-extra_validation": {
+      config: {
+        remove_unknown: false
+      },
+      resp: {
+        status: true,
+        message: "OK",
+        data: {
+          person: {
+            sex: 'female'
+          }
+        }
+      },
+      param: [{
+        person: {
+          sex: 'female'
+        }
+      }, {
+        id: "person",
+        type: "object",
+        properties: [{
+          id: "sex",
+          type: "string",
+          required: true
+        }]
+      }, function (param) {
+        if (param.person.sex === 'male') {
+          return 'Must be a female';
+        }
+      }]
+    },
+    "success-min-value-number": {
+      config: {
+        remove_unknown: false
+      },
+      resp: {
+        status: true,
+        message: "OK",
+        data: {
+          number_param: 20
+        }
+      },
+      param: [{
+        number_param: 20
+      }, {
+        id: "number_param",
+        type: "number",
+        min_value: 10
+      }]
+    },
+    "success-max-value-number": {
+      config: {
+        remove_unknown: false
+      },
+      resp: {
+        status: true,
+        message: "OK",
+        data: {
+          number_param: 20
+        }
+      },
+      param: [{
+        number_param: 20
+      }, {
+        id: "number_param",
+        type: "number",
+        max_value: 20
+      }]
+    },
   },
   fail: {
     "fail-type-string": {
@@ -834,7 +903,65 @@ obj = {
           }]
         }]
       }]
-    }
+    },
+    "fail-extra_validation": {
+      config: {
+        remove_unknown: false
+      },
+      resp: {
+        status: false,
+        message: "Must be a female"
+      },
+      param: [{
+        person: {
+          sex: 'male'
+        }
+      }, {
+        id: "person",
+        type: "object",
+        properties: [{
+          id: "sex",
+          type: "string",
+          required: true
+        }]
+      }, function (param) {
+        if (param.person.sex === 'male') {
+          return 'Must be a female';
+        }
+      }]
+    },
+    "fail-min-value-number": {
+      config: {
+        remove_unknown: false
+      },
+      resp: {
+        status: false,
+        message: "The minimum value for 'number_param' is 10.  The path of the fail value is root['number_param']."
+      },
+      param: [{
+        number_param: 5
+      }, {
+        id: "number_param",
+        type: "number",
+        min_value: 10
+      }]
+    },
+    "fail-max-value-number": {
+      config: {
+        remove_unknown: false
+      },
+      resp: {
+        status: false,
+        message: "The maximum value for 'number_param' is 20.  The path of the fail value is root['number_param']."
+      },
+      param: [{
+        number_param: 25
+      }, {
+        id: "number_param",
+        type: "number",
+        max_value: 20
+      }]
+    },
   }
 }
 

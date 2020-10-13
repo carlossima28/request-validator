@@ -19,9 +19,13 @@
         "wrong_pattern_in_array": "The pattern for a value inside of '[ID]' is incorrect.",
         "value_required_in_object": "The value for '[ID]' is required.  It cannot be undefined, null or NaN.",
         "value_required_in_array": "Values inside of '[ID]' are required.  These cannot be undefined, null or NaN.",
-        "property_path":"The path of the fail value is [PATH]."
+        "wrong_minimum_value_in_object": "The minimum value for '[ID]' is [MIN_VALUE].",
+        "wrong_maximum_value_in_object": "The maximum value for '[ID]' is [MAX_VALUE].",
+        "wrong_minimum_value_in_array": "The minimum value for an element inside of '[ID]' is [MIN_VALUE].",
+        "wrong_maximum_value_in_array": "The maximum value for an element inside of '[ID]' is [MAX_VALUE].",
+        "property_path": "The path of the fail value is [PATH]."
     },
-    "bad_configuration":{
+    "bad_configuration": {
         "not_found_regex_type": "The regex type is undefined",
         "not_found_regex_languague": "The regex fails messages languague is undefined",
         "not_found_regex_message": "The regex fail message is undefined"

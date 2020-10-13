@@ -35,7 +35,10 @@ module.exports = class RequestValidator {
       arr_prop = Array.isArray(arr_prop) ? arr_prop : [arr_prop];
       this.validateObject(param, arr_prop)
       if (typeof (extra_validation) === 'function') {
-        extra_validation(param, this.throw);
+        let resp_extra_validation = extra_validation(param);
+        if (resp_extra_validation !== undefined) {
+          this.throw(resp_extra_validation);
+        }
       }
       this.response.data = param;
     } catch (error) {
@@ -75,6 +78,7 @@ module.exports = class RequestValidator {
 
         this.validateTypesObject(param, prop);
         this.validateRegexObject(param, prop);
+        this.validateValuesObject(param, prop);
         this.validateItems(param, prop);
         this.validateSizesObject(param, prop);
 
@@ -96,6 +100,7 @@ module.exports = class RequestValidator {
 
       this.validateTypesArray(param, prop);
       this.validateRegexArray(param, prop);
+      this.validateValuesArray(param, prop);
       this.validateItems(param, prop);
       this.validateSizesArray(param, prop);
 
@@ -122,21 +127,21 @@ module.exports = class RequestValidator {
         case 'boolean':
         case 'number':
           if (typeof (param[prop.id]) !== prop.type) {
-            this.throw(Msg(this.config.languague).bad_request.not_match_type_in_object, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.not_match_type_in_object, prop);
           }
           break;
         case 'object':
           if (typeof (param[prop.id]) !== prop.type || Array.isArray(param[prop.id])) {
-            this.throw(Msg(this.config.languague).bad_request.not_match_type_in_object, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.not_match_type_in_object, prop);
           }
           break;
         case 'array':
           if (!Array.isArray(param[prop.id])) {
-            this.throw(Msg(this.config.languague).bad_request.not_match_type_in_object, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.not_match_type_in_object, prop);
           }
           break;
         default:
-          this.throw(Msg(this.config.languague).bad_request.unknown_type, prop);
+          this.setThrow(Msg(this.config.languague).bad_request.unknown_type, prop);
           break;
       }
     }
@@ -149,21 +154,21 @@ module.exports = class RequestValidator {
         case 'boolean':
         case 'number':
           if (typeof (param[prop.index]) !== prop.type) {
-            this.throw(Msg(this.config.languague).bad_request.not_match_type_in_array, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.not_match_type_in_array, prop);
           }
           break;
         case 'object':
           if (typeof (param[prop.index]) !== prop.type || Array.isArray(param[prop.index])) {
-            this.throw(Msg(this.config.languague).bad_request.not_match_type_in_array, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.not_match_type_in_array, prop);
           }
           break;
         case 'array':
           if (!Array.isArray(param[prop.index])) {
-            this.throw(Msg(this.config.languague).bad_request.not_match_type_in_array, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.not_match_type_in_array, prop);
           }
           break;
         default:
-          this.throw(Msg(this.config.languague).bad_request.unknown_type, prop);
+          this.setThrow(Msg(this.config.languague).bad_request.unknown_type, prop);
           break;
       }
     }
@@ -186,7 +191,7 @@ module.exports = class RequestValidator {
       }
 
       if (!(new RegExp(this.config.regex.regex[prop.regex_type])).test(str)) {
-        this.throw(
+        this.setThrow(
           Msg(this.config.languague).bad_request.wrong_pattern_in_object + '  ' + this.config.regex.message[this.config.languague][prop.regex_type],
           prop);
       }
@@ -210,7 +215,7 @@ module.exports = class RequestValidator {
       }
 
       if (!(new RegExp(this.config.regex.regex[prop.regex_type])).test(str)) {
-        this.throw(
+        this.setThrow(
           Msg(this.config.languague).bad_request.wrong_pattern_in_array + '  ' + this.config.regex.message[this.config.languague][prop.regex_type],
           prop);
       }
@@ -222,51 +227,51 @@ module.exports = class RequestValidator {
       case 'string':
         if (prop.min_length !== undefined) {
           if (param[prop.id].length < prop.min_length) {
-            this.throw(Msg(this.config.languague).bad_request.wrong_minimum_length_in_object, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_minimum_length_in_object, prop);
           }
         }
         if (prop.max_length !== undefined) {
           if (param[prop.id].length > prop.max_length) {
-            this.throw(Msg(this.config.languague).bad_request.wrong_maximum_length_in_object, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_maximum_length_in_object, prop);
           }
         }
         if (prop.exact_length !== undefined) {
           if (param[prop.id].length !== prop.exact_length) {
-            this.throw(Msg(this.config.languague).bad_request.wrong_exact_length_in_object, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_exact_length_in_object, prop);
           }
         }
         break;
       case 'array':
         if (prop.min_items !== undefined) {
           if (param[prop.id].length < prop.min_items) {
-            this.throw(Msg(this.config.languague).bad_request.wrong_minimum_items_in_object, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_minimum_items_in_object, prop);
           }
         }
         if (prop.max_items !== undefined) {
           if (param[prop.id].length > prop.max_items) {
-            this.throw(Msg(this.config.languague).bad_request.wrong_maximum_items_in_object, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_maximum_items_in_object, prop);
           }
         }
         if (prop.exact_items !== undefined) {
           if (param[prop.id].length !== prop.exact_items) {
-            this.throw(Msg(this.config.languague).bad_request.wrong_exact_items_in_object, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_exact_items_in_object, prop);
           }
         }
         break;
       case 'object':
         if (prop.min_items !== undefined) {
           if (Object.entries(param[prop.id]).length < prop.min_items) {
-            this.throw(Msg(this.config.languague).bad_request.wrong_minimum_items_in_object, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_minimum_items_in_object, prop);
           }
         }
         if (prop.max_items !== undefined) {
           if (Object.entries(param[prop.id]).length > prop.max_items) {
-            this.throw(Msg(this.config.languague).bad_request.wrong_maximum_items_in_object, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_maximum_items_in_object, prop);
           }
         }
         if (prop.exact_items !== undefined) {
           if (Object.entries(param[prop.id]).length !== prop.exact_items) {
-            this.throw(Msg(this.config.languague).bad_request.wrong_exact_items_in_object, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_exact_items_in_object, prop);
           }
         }
         break;
@@ -280,51 +285,89 @@ module.exports = class RequestValidator {
       case 'string':
         if (prop.min_length !== undefined) {
           if (param[prop.index].length < prop.min_length) {
-            this.throw(Msg(this.config.languague).bad_request.wrong_minimum_length_in_array, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_minimum_length_in_array, prop);
           }
         }
         if (prop.max_length !== undefined) {
           if (param[prop.index].length > prop.max_length) {
-            this.throw(Msg(this.config.languague).bad_request.wrong_maximum_length_in_array, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_maximum_length_in_array, prop);
           }
         }
         if (prop.exact_length !== undefined) {
           if (param[prop.index].length !== prop.exact_length) {
-            this.throw(Msg(this.config.languague).bad_request.wrong_exact_length_in_array, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_exact_length_in_array, prop);
           }
         }
         break;
       case 'array':
         if (prop.min_items !== undefined) {
           if (param[prop.index].length < prop.min_items) {
-            this.throw(Msg(this.config.languague).bad_request.wrong_minimum_items_in_array, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_minimum_items_in_array, prop);
           }
         }
         if (prop.max_items !== undefined) {
           if (param[prop.index].length > prop.max_items) {
-            this.throw(Msg(this.config.languague).bad_request.wrong_maximum_items_in_array, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_maximum_items_in_array, prop);
           }
         }
         if (prop.exact_items !== undefined) {
           if (param[prop.index].length !== prop.exact_items) {
-            this.throw(Msg(this.config.languague).bad_request.wrong_exact_items_in_array, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_exact_items_in_array, prop);
           }
         }
         break;
       case 'object':
         if (prop.min_items !== undefined) {
           if (Object.entries(param[prop.index]).length < prop.min_items) {
-            this.throw(Msg(this.config.languague).bad_request.wrong_minimum_items_in_array, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_minimum_items_in_array, prop);
           }
         }
         if (prop.max_items !== undefined) {
           if (Object.entries(param[prop.index]).length > prop.max_items) {
-            this.throw(Msg(this.config.languague).bad_request.wrong_maximum_items_in_array, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_maximum_items_in_array, prop);
           }
         }
         if (prop.exact_items !== undefined) {
           if (Object.entries(param[prop.index]).length !== prop.exact_items) {
-            this.throw(Msg(this.config.languague).bad_request.wrong_exact_items_in_array, prop);
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_exact_items_in_array, prop);
+          }
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  validateValuesObject(param, prop) {
+    switch (prop.type) {
+      case 'number':
+        if (prop.min_value !== undefined) {
+          if (param[prop.id] < prop.min_value) {
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_minimum_value_in_object, prop);
+          }
+        }
+        if (prop.max_value !== undefined) {
+          if (param[prop.id] > prop.max_value) {
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_maximum_value_in_object, prop);
+          }
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  validateValuesArray(param, prop) {
+    switch (prop.type) {
+      case 'number':
+        if (prop.min_value !== undefined) {
+          if (param[prop.index] < prop.min_value) {
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_minimum_value_in_array, prop);
+          }
+        }
+        if (prop.max_value !== undefined) {
+          if (param[prop.index] > prop.max_value) {
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_maximum_value_in_array, prop);
           }
         }
         break;
@@ -351,19 +394,24 @@ module.exports = class RequestValidator {
     }
   }
 
-  throw(message, prop) {
+  setThrow(message, prop) {
+    this.throw(message.replaceAll('[ID]', prop.id)
+      .replaceAll('[TYPE]', prop.type)
+      .replaceAll('[MIN_ITEMS]', prop.min_items)
+      .replaceAll('[MAX_ITEMS]', prop.max_items)
+      .replaceAll('[EXACT_ITEMS]', prop.exact_items)
+      .replaceAll('[MIN_LENGTH]', prop.min_length)
+      .replaceAll('[MAX_LENGTH]', prop.max_length)
+      .replaceAll('[EXACT_LENGTH]', prop.exact_length)
+      .replaceAll('[MIN_VALUE]', prop.min_value)
+      .replaceAll('[MAX_VALUE]', prop.max_value)
+      + '  ' + Msg(this.config.languague).bad_request.property_path
+        .replace('[PATH]', this.route.join('')));
+  }
+
+  throw(message) {
     this.response.status = false;
     this.response.message = message
-      .replace('[ID]', prop.id)
-      .replace('[TYPE]', prop.type)
-      .replace('[MIN_ITEMS]', prop.min_items)
-      .replace('[MAX_ITEMS]', prop.max_items)
-      .replace('[EXACT_ITEMS]', prop.exact_items)
-      .replace('[MIN_LENGTH]', prop.min_length)
-      .replace('[MAX_LENGTH]', prop.max_length)
-      .replace('[EXACT_LENGTH]', prop.exact_length)
-      + '  ' + Msg(this.config.languague).bad_request.property_path
-        .replace('[PATH]', this.route.join(''));
-    throw 404;
+    throw 401;
   }
 }
