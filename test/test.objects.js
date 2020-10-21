@@ -578,6 +578,25 @@ obj = {
         max_value: 20
       }]
     },
+    "success-allowed-string": {
+      config: {
+        remove_unknown: false
+      },
+      resp: {
+        status: true,
+        message: "OK",
+        data: {
+          status: "A"
+        }
+      },
+      param: [{
+        status: "A"
+      }, {
+        id: "status",
+        type: "string",
+        allowed: ["A", "S", "E"]
+      }]
+    },
   },
   fail: {
     "fail-type-string": {
@@ -960,6 +979,22 @@ obj = {
         id: "number_param",
         type: "number",
         max_value: 20
+      }]
+    },
+    "fail-allowed-string": {
+      config: {
+        remove_unknown: false
+      },
+      resp: {
+        status: false,
+        message: "The value for 'status' is not allowed.  Allowed values: [\"A\",\"S\",\"E\"].  The path of the fail value is root['status']."
+      },
+      param: [{
+        status: "R"
+      }, {
+        id: "status",
+        type: "string",
+        allowed: ["A", "S", "E"]
       }]
     },
   }

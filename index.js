@@ -355,6 +355,26 @@ module.exports = class RequestValidator {
       default:
         break;
     }
+
+    switch(prop.type){
+      case 'string':
+      case 'number':
+        if(prop.allowed != undefined){
+          let at_least = false;
+          for(let i = 0; i < prop.allowed.length; i++){
+            if(param[prop.id] === prop.allowed[i]){
+              at_least = true;
+              break;
+            }
+          }
+          if(!at_least){
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_allowed_value_in_object, prop);
+          }
+        }
+        break;
+      default:
+        break;
+    }
   }
 
   validateValuesArray(param, prop) {
@@ -368,6 +388,26 @@ module.exports = class RequestValidator {
         if (prop.max_value !== undefined) {
           if (param[prop.index] > prop.max_value) {
             this.setThrow(Msg(this.config.languague).bad_request.wrong_maximum_value_in_array, prop);
+          }
+        }
+        break;
+      default:
+        break;
+    }
+
+    switch(prop.type){
+      case 'string':
+      case 'number':
+        if(prop.allowed != undefined){
+          let at_least = false;
+          for(let i = 0; i < prop.allowed.length; i++){
+            if(param[prop.index] === prop.allowed[i]){
+              at_least = true;
+              break;
+            }
+          }
+          if(!at_least){
+            this.setThrow(Msg(this.config.languague).bad_request.wrong_allowed_value_in_array, prop);
           }
         }
         break;
@@ -405,6 +445,7 @@ module.exports = class RequestValidator {
       .replaceAll('[EXACT_LENGTH]', prop.exact_length)
       .replaceAll('[MIN_VALUE]', prop.min_value)
       .replaceAll('[MAX_VALUE]', prop.max_value)
+      .replaceAll('[ALLOWED]', JSON.stringify(prop.allowed))
       + '  ' + Msg(this.config.languague).bad_request.property_path
         .replace('[PATH]', this.route.join('')));
   }

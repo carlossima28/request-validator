@@ -23,6 +23,8 @@
         "wrong_maximum_value_in_object": "The maximum value for '[ID]' is [MAX_VALUE].",
         "wrong_minimum_value_in_array": "The minimum value for an element inside of '[ID]' is [MIN_VALUE].",
         "wrong_maximum_value_in_array": "The maximum value for an element inside of '[ID]' is [MAX_VALUE].",
+        "wrong_allowed_value_in_object": "The value for '[ID]' is not allowed.  Allowed values: [ALLOWED].",
+        "wrong_allowed_value_in_array": "The value for an element inside of '[ID]' is not allowed.  Allowed values: [ALLOWED].",
         "property_path": "The path of the fail value is [PATH]."
     },
     "bad_configuration": {

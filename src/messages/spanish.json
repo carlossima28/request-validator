@@ -1,3 +1,35 @@
 {
-
+    "bad_request": {
+        "not_match_type_in_object": "El tipo para '[ID]' debe ser '[TYPE]'.",
+        "not_match_type_in_array": "Elementos dentro de '[ID]' deben ser de tipo '[TYPE]'.",
+        "unknown_type": "Tipo '[TYPE]' no es reconocido para '[ID]'.",
+        "wrong_minimum_items_in_object": "El número mínimo de elementos para '[ID]' es [MIN_ITEMS].",
+        "wrong_minimum_items_in_array": "El número mínimo de elementos para los valores dentro '[ID]' es [MIN_ITEMS].",
+        "wrong_maximum_items_in_object": "El número máximo de elementos para '[ID]' es [MAX_ITEMS].",
+        "wrong_maximum_items_in_array": "El número máximo de elementos para los valores dentro de '[ID]' es [MAX_ITEMS].",
+        "wrong_exact_items_in_object": "El número de elementos para '[ID]' debe ser [EXACT_ITEMS].",
+        "wrong_exact_items_in_array": "El número de elementos para los valores dentro de '[ID]' debe ser [EXACT_ITEMS].",
+        "wrong_minimum_length_in_object": "El tamaño mínimo de '[ID]' es [MIN_LENGTH].",
+        "wrong_minimum_length_in_array": "El tamaño mínimo de los valores dentro de '[ID]' es [MIN_LENGTH].",
+        "wrong_maximum_length_in_object": "El tamaño máximo de '[ID]' es [MAX_LENGTH].",
+        "wrong_maximum_length_in_array": "El tamaño máximo de los valores dentro de '[ID]' es [MAX_LENGTH].",
+        "wrong_exact_length_in_object": "El tamaño de '[ID]' debe ser [EXACT_LENGTH].",
+        "wrong_exact_length_in_array": "El tamaño para los valores dentro de '[ID]' debe ser [EXACT_LENGTH].",
+        "wrong_pattern_in_object": "El patrón '[ID]' es incorrecto.",
+        "wrong_pattern_in_array": "El patrón para un valor dentro de '[ID]' es incorrecto.",
+        "value_required_in_object": "El valor para '[ID]' es requerido.  No puede ser indefinido, nulo o NaN.",
+        "value_required_in_array": "Valores dentro de '[ID]' son requeridos.  Estos no pueden ser indefinidos, nulos o NaN.",
+        "wrong_minimum_value_in_object": "El valor mínimo para '[ID]' es [MIN_VALUE].",
+        "wrong_maximum_value_in_object": "El valor máximo para '[ID]' es [MAX_VALUE].",
+        "wrong_minimum_value_in_array": "El valor mínimo para un elemento dentro de '[ID]' es [MIN_VALUE].",
+        "wrong_maximum_value_in_array": "El valor máximo para un elemento dentro de '[ID]' es [MAX_VALUE].",
+        "wrong_allowed_value_in_object": "El valor para '[ID]' no es permitido.  Valores permitidos: [ALLOWED].",
+        "wrong_allowed_value_in_array": "El valor para un elemento dentro de '[ID]' no es permitido.  Valores permitidos: [ALLOWED].",
+        "property_path": "La ruta del valor que falló es [PATH]."
+    },
+    "bad_configuration": {
+        "not_found_regex_type": "El tipo de expresión regular es indefinida.",
+        "not_found_regex_languague": "El lenguaje para los mensajes de la expresión regular es indefinida.",
+        "not_found_regex_message": "El mensaje de fallo para la expresión regular es indefinida"
+    }
 }

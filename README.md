@@ -45,6 +45,7 @@ Parameter **properties** is an object that describes how parameters need to be. 
 * **id**: String property name.
 * **type**: String property type.  Allowed values: string, number, boolean, object and array.
 * **default_value**: Default value for a property in case that it is undefined.
+* **allowed**: Array with the allowed values.  Only for number and string type.
 * **properties**: Array with objects that describe properties.
 * **item**: Object that contains validations for elements inside of an array.
 * **regex_type**: String regular expresion key to use for the property.  Available for all types.  For types object and array the value used would be the serialized.
