@@ -196,6 +196,26 @@ module.exports = class RequestValidator {
           prop);
       }
     }
+
+    if (prop.regex !== undefined) {
+      let str;
+      switch (prop.type) {
+        case 'string':
+          str = param[prop.id];
+          break;
+        case 'object':
+        case 'array':
+          str = JSON.stringify(param[prop.id]);
+          break;
+        default:
+          str = param[prop.id].toString();
+          break;
+      }
+
+      if (!(new RegExp(prop.regex)).test(str)) {
+        this.setThrow(Msg(this.config.languague).bad_request.wrong_pattern_in_object, prop);
+      }
+    }
   }
 
   validateRegexArray(param, prop) {
@@ -218,6 +238,26 @@ module.exports = class RequestValidator {
         this.setThrow(
           Msg(this.config.languague).bad_request.wrong_pattern_in_array + '  ' + this.config.regex.message[this.config.languague][prop.regex_type],
           prop);
+      }
+    }
+
+    if (prop.regex !== undefined) {
+      let str;
+      switch (prop.type) {
+        case 'string':
+          str = param[prop.index];
+          break;
+        case 'object':
+        case 'array':
+          str = JSON.stringify(param[prop.index]);
+          break;
+        default:
+          str = param[prop.index].toString();
+          break;
+      }
+
+      if (!(new RegExp(prop.regex)).test(str)) {
+        this.setThrow(Msg(this.config.languague).bad_request.wrong_pattern_in_array, prop);
       }
     }
   }
@@ -356,18 +396,18 @@ module.exports = class RequestValidator {
         break;
     }
 
-    switch(prop.type){
+    switch (prop.type) {
       case 'string':
       case 'number':
-        if(prop.allowed != undefined){
+        if (prop.allowed != undefined) {
           let at_least = false;
-          for(let i = 0; i < prop.allowed.length; i++){
-            if(param[prop.id] === prop.allowed[i]){
+          for (let i = 0; i < prop.allowed.length; i++) {
+            if (param[prop.id] === prop.allowed[i]) {
               at_least = true;
               break;
             }
           }
-          if(!at_least){
+          if (!at_least) {
             this.setThrow(Msg(this.config.languague).bad_request.wrong_allowed_value_in_object, prop);
           }
         }
@@ -395,18 +435,18 @@ module.exports = class RequestValidator {
         break;
     }
 
-    switch(prop.type){
+    switch (prop.type) {
       case 'string':
       case 'number':
-        if(prop.allowed != undefined){
+        if (prop.allowed != undefined) {
           let at_least = false;
-          for(let i = 0; i < prop.allowed.length; i++){
-            if(param[prop.index] === prop.allowed[i]){
+          for (let i = 0; i < prop.allowed.length; i++) {
+            if (param[prop.index] === prop.allowed[i]) {
               at_least = true;
               break;
             }
           }
-          if(!at_least){
+          if (!at_least) {
             this.setThrow(Msg(this.config.languague).bad_request.wrong_allowed_value_in_array, prop);
           }
         }

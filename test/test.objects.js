@@ -364,6 +364,47 @@ obj = {
         }
       }]
     },
+    "success-regex-string": {
+      config: {
+        remove_unknown: false
+      },
+      resp: {
+        status: true,
+        message: "OK",
+        data: {
+          pswd_string: "pswddD1*"
+        }
+      },
+      param: [{
+        pswd_string: "pswddD1*"
+      }, {
+        id: "pswd_string",
+        type: "string",
+        regex: "^(?=.*?[A-ZÑ])(?=.*?[a-zñ])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,40}$"
+      }]
+    },
+    "success-item-regex-array": {
+      config: {
+        remove_unknown: false
+      },
+      resp: {
+        status: true,
+        message: "OK",
+        data: {
+          pswd_string: ["pswddD1*"]
+        }
+      },
+      param: [{
+        pswd_string: ["pswddD1*"]
+      }, {
+        id: "pswd_string",
+        type: "array",
+        item: {
+          type: "string",
+          regex: "^(?=.*?[A-ZÑ])(?=.*?[a-zñ])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,40}$"
+        }
+      }]
+    },
     "success-regex_type-string": {
       config: {
         remove_unknown: false
@@ -842,6 +883,35 @@ obj = {
         type: "array",
         item: {
           type: "string"
+        }
+      }]
+    },
+    "fail-regex-string": {
+      resp: {
+        status: false,
+        message: "The pattern for 'pswd_string' is incorrect.  The path of the fail value is root['pswd_string']."
+      },
+      param: [{
+        pswd_string: "pswddd1*"
+      }, {
+        id: "pswd_string",
+        type: "string",
+        regex: "^(?=.*?[A-ZÑ])(?=.*?[a-zñ])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,40}$"
+      }]
+    },
+    "fail-item-regex-array": {
+      resp: {
+        status: false,
+        message: "The pattern for a value inside of 'pswd_string' is incorrect.  The path of the fail value is root['pswd_string'][0]."
+      },
+      param: [{
+        pswd_string: ["pswddd1*"]
+      }, {
+        id: "pswd_string",
+        type: "array",
+        item: {
+          type: "string",
+          regex: "^(?=.*?[A-ZÑ])(?=.*?[a-zñ])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,40}$"
         }
       }]
     },

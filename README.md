@@ -48,6 +48,7 @@ Parameter **properties** is an object that describes how parameters need to be. 
 * **allowed**: Array with the allowed values.  Only for number and string type.
 * **properties**: Array with objects that describe properties.
 * **item**: Object that contains validations for elements inside of an array.
+* **regex**: String regular expresion to use for the property.  Available for all types.  For types object and array the value used would be the serialized.
 * **regex_type**: String regular expresion key to use for the property.  Available for all types.  For types object and array the value used would be the serialized.
 * **min_items**: Minimum number of elements.  For object type, it indicates the minumum of properties to be a valid value, while for array type, it indicaste the minimum of elements inside to be a valid value.
 * **max_items**: Minimum number of elements.  For object type, it indicates the maximum of properties to be a valid value, while for array type, it indicaste the maximum of elements inside to be a valid value.
