@@ -46,8 +46,11 @@ Parameter **properties** is an object that describes how parameters need to be. 
 * **type**: String property type.  Allowed values: string, number, boolean, object and array.
 * **default_value**: Default value for a property in case that it is undefined.
 * **allowed**: Array with the allowed values.  Only for number and string type.
-* **properties**: Array with objects that describe properties.
-* **item**: Object that contains validations for elements inside of an array.
+* **allow_single**: Boolean indicating if the value of an array can be directly an element type of the array, so in this case the value will automatically be inside an array when the parameter is processed.  Only for the array type.
+* **allow_undefined**: Boolean indicating if the value can be undefined, so when this property is true and the value is undefined the value will not be evaluated.  Available for all types.
+* **allow_null**: Boolean indicating if the value can be null, so when this property is true and the value is null the value will not be evaluated.  Available for all types.
+* **properties**: Array with objects that describe properties.  Only for the object type.
+* **item**: Object that contains validations for elements inside of an array.  Only for the array type.
 * **regex**: String regular expresion to use for the property.  Available for all types.  For types object and array the value used would be the serialized.
 * **regex_type**: String regular expresion key to use for the property.  Available for all types.  For types object and array the value used would be the serialized.
 * **min_items**: Minimum number of elements.  For object type, it indicates the minumum of properties to be a valid value, while for array type, it indicaste the minimum of elements inside to be a valid value.
@@ -60,7 +63,7 @@ Parameter **properties** is an object that describes how parameters need to be. 
 * **exact_length**: Exact number of characteres.  Only for string type.
 * **required**: Boolean indicating if the value is necessary and if it will be evaluated.
 
-A referential operation is when a property depends on other operation.  To do this the value must be a string that starts and ends with `|`.  To make a reference in the operation for the parameters you need to use `$`.  The resulting value will be the assigned value.  Only available for the property `required`.  Example:
+A referential operation is when a property depends on other operation.  To do this the value must be a string that starts and ends with `|`.  To make a reference in the operation for the parameters you need to use `$`.  The resulting value will be the assigned value.  Only available for the property `required`, `allow_undefined` and `allow_null`.  Example:
 
 `required: '|$.persona.age > 20|'`
 

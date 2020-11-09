@@ -70,17 +70,25 @@ module.exports = class RequestValidator {
     for (let i = 0; i < arr_prop.length; i++) {
       let prop = arr_prop[i];
       prop.required = prop.required === undefined ? true : this.checkPropertyOfProperty(prop.required);
+      prop.allow_undefined = prop.allow_undefined === undefined ? false : this.checkPropertyOfProperty(prop.allow_undefined);
+      prop.allow_null = prop.allow_null === undefined ? false : this.checkPropertyOfProperty(prop.allow_null);
 
       if (prop.required) {
         this.route.push("['" + prop.id + "']");
 
         param[prop.id] = param[prop.id] === undefined ? prop.default_value : param[prop.id];
-
-        this.validateTypesObject(param, prop);
-        this.validateRegexObject(param, prop);
-        this.validateValuesObject(param, prop);
-        this.validateItems(param, prop);
-        this.validateSizesObject(param, prop);
+        if (!(prop.allow_undefined && param[prop.id] === undefined)) {
+          if (prop.allow_null === false && param[prop.id] === null) {
+            this.setThrow(Msg(this.config.languague).bad_request.not_allow_null_in_object, prop);
+          } else if (!(prop.allow_null && param[prop.id] === null)) {
+            param[prop.id] = (prop.allow_single && !Array.isArray(param[prop.id]) && param[prop.id] !== undefined) ? [param[prop.id]] : param[prop.id];
+            this.validateTypesObject(param, prop);
+            this.validateRegexObject(param, prop);
+            this.validateValuesObject(param, prop);
+            this.validateItems(param, prop);
+            this.validateSizesObject(param, prop);
+          }
+        }
 
         this.route.pop();
       } else {
@@ -93,17 +101,23 @@ module.exports = class RequestValidator {
 
   validateArray(param, prop) {
     prop.required = prop.required === undefined ? true : prop.required;
+    prop.allow_undefined = prop.allow_undefined === undefined ? false : this.checkPropertyOfProperty(prop.allow_undefined);
+    prop.allow_null = prop.allow_null === undefined ? false : this.checkPropertyOfProperty(prop.allow_null);
     for (let i = 0; i < param.length; i++) {
       this.route.push("[" + i + "]");
-      prop.index = i;
-      param[prop.index] = param[prop.index] === undefined ? prop.default_value : param[prop.index];
-
-      this.validateTypesArray(param, prop);
-      this.validateRegexArray(param, prop);
-      this.validateValuesArray(param, prop);
-      this.validateItems(param, prop);
-      this.validateSizesArray(param, prop);
-
+      prop.id = i;
+      param[prop.id] = param[prop.id] === undefined ? prop.default_value : param[prop.id];
+      if (!(prop.allow_undefined && typeof (param[prop.id]) === undefined)) {
+        if (prop.allow_null === false && param[prop.id] === null) {
+          this.setThrow(Msg(this.config.languague).bad_request.not_allow_null_in_array, prop);
+        } else if (!(prop.allow_null && param[prop.id] === null)) {
+          this.validateTypesArray(param, prop);
+          this.validateRegexArray(param, prop);
+          this.validateValuesArray(param, prop);
+          this.validateItems(param, prop);
+          this.validateSizesArray(param, prop);
+        }
+      }
       this.route.pop();
     }
   }
@@ -153,17 +167,17 @@ module.exports = class RequestValidator {
         case 'string':
         case 'boolean':
         case 'number':
-          if (typeof (param[prop.index]) !== prop.type) {
+          if (typeof (param[prop.id]) !== prop.type) {
             this.setThrow(Msg(this.config.languague).bad_request.not_match_type_in_array, prop);
           }
           break;
         case 'object':
-          if (typeof (param[prop.index]) !== prop.type || Array.isArray(param[prop.index])) {
+          if (typeof (param[prop.id]) !== prop.type || Array.isArray(param[prop.id])) {
             this.setThrow(Msg(this.config.languague).bad_request.not_match_type_in_array, prop);
           }
           break;
         case 'array':
-          if (!Array.isArray(param[prop.index])) {
+          if (!Array.isArray(param[prop.id])) {
             this.setThrow(Msg(this.config.languague).bad_request.not_match_type_in_array, prop);
           }
           break;
@@ -223,14 +237,14 @@ module.exports = class RequestValidator {
       let str;
       switch (prop.type) {
         case 'string':
-          str = param[prop.index];
+          str = param[prop.id];
           break;
         case 'object':
         case 'array':
-          str = JSON.stringify(param[prop.index]);
+          str = JSON.stringify(param[prop.id]);
           break;
         default:
-          str = param[prop.index].toString();
+          str = param[prop.id].toString();
           break;
       }
 
@@ -245,14 +259,14 @@ module.exports = class RequestValidator {
       let str;
       switch (prop.type) {
         case 'string':
-          str = param[prop.index];
+          str = param[prop.id];
           break;
         case 'object':
         case 'array':
-          str = JSON.stringify(param[prop.index]);
+          str = JSON.stringify(param[prop.id]);
           break;
         default:
-          str = param[prop.index].toString();
+          str = param[prop.id].toString();
           break;
       }
 
@@ -324,51 +338,51 @@ module.exports = class RequestValidator {
     switch (prop.type) {
       case 'string':
         if (prop.min_length !== undefined) {
-          if (param[prop.index].length < prop.min_length) {
+          if (param[prop.id].length < prop.min_length) {
             this.setThrow(Msg(this.config.languague).bad_request.wrong_minimum_length_in_array, prop);
           }
         }
         if (prop.max_length !== undefined) {
-          if (param[prop.index].length > prop.max_length) {
+          if (param[prop.id].length > prop.max_length) {
             this.setThrow(Msg(this.config.languague).bad_request.wrong_maximum_length_in_array, prop);
           }
         }
         if (prop.exact_length !== undefined) {
-          if (param[prop.index].length !== prop.exact_length) {
+          if (param[prop.id].length !== prop.exact_length) {
             this.setThrow(Msg(this.config.languague).bad_request.wrong_exact_length_in_array, prop);
           }
         }
         break;
       case 'array':
         if (prop.min_items !== undefined) {
-          if (param[prop.index].length < prop.min_items) {
+          if (param[prop.id].length < prop.min_items) {
             this.setThrow(Msg(this.config.languague).bad_request.wrong_minimum_items_in_array, prop);
           }
         }
         if (prop.max_items !== undefined) {
-          if (param[prop.index].length > prop.max_items) {
+          if (param[prop.id].length > prop.max_items) {
             this.setThrow(Msg(this.config.languague).bad_request.wrong_maximum_items_in_array, prop);
           }
         }
         if (prop.exact_items !== undefined) {
-          if (param[prop.index].length !== prop.exact_items) {
+          if (param[prop.id].length !== prop.exact_items) {
             this.setThrow(Msg(this.config.languague).bad_request.wrong_exact_items_in_array, prop);
           }
         }
         break;
       case 'object':
         if (prop.min_items !== undefined) {
-          if (Object.entries(param[prop.index]).length < prop.min_items) {
+          if (Object.entries(param[prop.id]).length < prop.min_items) {
             this.setThrow(Msg(this.config.languague).bad_request.wrong_minimum_items_in_array, prop);
           }
         }
         if (prop.max_items !== undefined) {
-          if (Object.entries(param[prop.index]).length > prop.max_items) {
+          if (Object.entries(param[prop.id]).length > prop.max_items) {
             this.setThrow(Msg(this.config.languague).bad_request.wrong_maximum_items_in_array, prop);
           }
         }
         if (prop.exact_items !== undefined) {
-          if (Object.entries(param[prop.index]).length !== prop.exact_items) {
+          if (Object.entries(param[prop.id]).length !== prop.exact_items) {
             this.setThrow(Msg(this.config.languague).bad_request.wrong_exact_items_in_array, prop);
           }
         }
@@ -421,12 +435,12 @@ module.exports = class RequestValidator {
     switch (prop.type) {
       case 'number':
         if (prop.min_value !== undefined) {
-          if (param[prop.index] < prop.min_value) {
+          if (param[prop.id] < prop.min_value) {
             this.setThrow(Msg(this.config.languague).bad_request.wrong_minimum_value_in_array, prop);
           }
         }
         if (prop.max_value !== undefined) {
-          if (param[prop.index] > prop.max_value) {
+          if (param[prop.id] > prop.max_value) {
             this.setThrow(Msg(this.config.languague).bad_request.wrong_maximum_value_in_array, prop);
           }
         }
@@ -441,7 +455,7 @@ module.exports = class RequestValidator {
         if (prop.allowed != undefined) {
           let at_least = false;
           for (let i = 0; i < prop.allowed.length; i++) {
-            if (param[prop.index] === prop.allowed[i]) {
+            if (param[prop.id] === prop.allowed[i]) {
               at_least = true;
               break;
             }
@@ -465,7 +479,7 @@ module.exports = class RequestValidator {
         break;
       case 'array':
         if (prop.item != undefined) {
-          prop.item.id = prop.id;
+          prop.item.id_master = prop.id;
           this.validateArray(param[prop.id], prop.item);
         }
         break;
@@ -476,6 +490,7 @@ module.exports = class RequestValidator {
 
   setThrow(message, prop) {
     this.throw(message.replaceAll('[ID]', prop.id)
+      .replaceAll('[ID_MASTER]', prop.id_master)
       .replaceAll('[TYPE]', prop.type)
       .replaceAll('[MIN_ITEMS]', prop.min_items)
       .replaceAll('[MAX_ITEMS]', prop.max_items)

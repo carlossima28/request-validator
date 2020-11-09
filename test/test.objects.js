@@ -638,6 +638,92 @@ obj = {
         allowed: ["A", "S", "E"]
       }]
     },
+    "success-allow_single-object": {
+      config: {
+        remove_unknown: false
+      },
+      resp: {
+        status: true,
+        message: "OK",
+        data: {
+          items: [{
+            key: "dog",
+            value: "bark"
+          }]
+        }
+      },
+      param: [{
+        items: {
+          key: "dog",
+          value: "bark"
+        }
+      }, {
+        id: "items",
+        type: "array",
+        allow_single: true,
+        item: {
+          type: 'object',
+          properties: [{
+            id: 'key',
+            type: 'string'
+          }, {
+            id: 'value',
+            type: 'string'
+          }]
+        }
+      }]
+    },
+    "success-allow_undefined-object": {
+      config: {
+        remove_unknown: false
+      },
+      resp: {
+        status: true,
+        message: "OK",
+        data: {
+          item: undefined
+        }
+      },
+      param: [{
+      }, {
+        id: "item",
+        type: 'object',
+        allow_undefined: true,
+        properties: [{
+          id: 'key',
+          type: 'string'
+        }, {
+          id: 'value',
+          type: 'string'
+        }]
+      }]
+    },
+    "success-allow_null-object": {
+      config: {
+        remove_unknown: false
+      },
+      resp: {
+        status: true,
+        message: "OK",
+        data: {
+          item: null
+        }
+      },
+      param: [{
+      }, {
+        id: "item",
+        type: 'object',
+        default_value: null,
+        allow_null: true,
+        properties: [{
+          id: 'key',
+          type: 'string'
+        }, {
+          id: 'value',
+          type: 'string'
+        }]
+      }]
+    }
   },
   fail: {
     "fail-type-string": {
@@ -1067,6 +1153,172 @@ obj = {
         allowed: ["A", "S", "E"]
       }]
     },
+    "fail-allow_single-object": {
+      config: {
+        remove_unknown: false
+      },
+      resp: {
+        status: false,
+        message: "The type for 'items' must be 'array'.  The path of the fail value is root['items']."
+      },
+      param: [{
+        items: {
+          key: "dog",
+          value: "bark"
+        }
+      }, {
+        id: "items",
+        type: "array",
+        allow_single: false,
+        item: {
+          type: 'object',
+          properties: [{
+            id: 'key',
+            type: 'string'
+          }, {
+            id: 'value',
+            type: 'string'
+          }]
+        }
+      }]
+    },
+    "fail-allow_undefined-object": {
+      config: {
+        remove_unknown: false
+      },
+      resp: {
+        status: false,
+        message: "The type for 'item' must be 'object'.  The path of the fail value is root['item']."
+      },
+      param: [{
+      }, {
+        id: "item",
+        type: 'object',
+        allow_undefined: false,
+        properties: [{
+          id: 'key',
+          type: 'string'
+        }, {
+          id: 'value',
+          type: 'string'
+        }]
+      }]
+    },
+    "fail-allow_null-object": {
+      config: {
+        remove_unknown: false
+      },
+      resp: {
+        status: false,
+        message: "The value for 'item' cannot be null.  The path of the fail value is root['item']."
+      },
+      param: [{
+        item: null
+      }, {
+        id: "item",
+        type: 'object',
+        allow_null: false,
+        properties: [{
+          id: 'key',
+          type: 'string'
+        }, {
+          id: 'value',
+          type: 'string'
+        }]
+      }]
+    }
+  },
+  fixed: {
+    "object-inside-array": {
+      resp: {
+        status: true,
+        message: "OK",
+        data: {
+          "application": {
+            "app_key": "my_app_key11",
+            "app_name": "My Application Name",
+            "custom_data": [
+              {
+                "name": "custom_text",
+                "type": "text",
+                "required": true,
+                "regex_type": "name",
+                "regex": "^(true|false)$"
+              }
+            ]
+          }
+        }
+      },
+      param: [{
+        "application": {
+          "app_key": "my_app_key11",
+          "app_name": "My Application Name",
+          "custom_data": [
+            {
+              "name": "custom_text",
+              "type": "text",
+              "required": true,
+              "regex_type": "name",
+              "regex": "^(true|false)$"
+            }
+          ]
+        }
+      }, [{
+        id: 'application',
+        type: 'object',
+        properties: [{
+          id: 'app_key',
+          type: 'string',
+          regex_type: 'key'
+        }, {
+          id: 'app_name',
+          type: 'string',
+          regex_type: 'name'
+        }, {
+          id: 'custom_data',
+          type: 'array',
+          default_value: [],
+          item: {
+            type: 'object',
+            properties: [{
+              id: 'name',
+              type: 'string',
+              regex_type: 'key'
+            }, {
+              id: 'required',
+              default_value: false,
+              type: 'boolean'
+            }, {
+              id: 'type',
+              type: 'string',
+              regex_type: 'postgres_type'
+            }, {
+              id: 'regex',
+              type: 'string'
+            }, {
+              id: 'regex_type',
+              type: 'string'
+            }]
+          }
+        }]
+      }]]
+    },
+    "object-inside-array": {
+      resp: {
+        status: false,
+        message: "The type for 'record' must be 'array'.  The path of the fail value is root['record']."
+      },
+      param: [{}, [{
+        id: 'record',
+        type: 'array',
+        allow_single: true,
+        min_items: 1,
+        item: {
+          type: 'object'
+        }
+      }
+      ]]
+    }
   }
 }
 

@@ -27,3 +27,15 @@ describe("Error Test", function () {
         });
     }
 });
+
+describe("Fixed Error Test", function () {
+    let tests = Object.entries(obj.fixed);
+    for (let i = 0; i < tests.length; i++) {
+        it(tests[i][0], function () {
+            let rv = new RequestValidator({
+                regex: regex
+            });
+            assert.deepStrictEqual(dispatch(rv, rv.validate, obj.fixed[this.test.title].param), obj.fixed[this.test.title].resp);
+        });
+    }
+});
