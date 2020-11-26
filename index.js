@@ -17,7 +17,7 @@ module.exports = class RequestValidator {
     };
 
     if (config) {
-      this.config.languague = config.languague === true ? config.languague : this.config.languague;
+      this.config.languague = config.languague? config.languague : this.config.languague;
       this.config.remove_unknown = config.remove_unknown === true ? config.remove_unknown : this.remove_unknown;
       this.config.regex = config.regex === undefined ? this.config.regex : config.regex;
     }
