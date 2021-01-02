@@ -27,7 +27,9 @@
         "wrong_allowed_value_in_array": "El valor para un elemento dentro de '[ID_MASTER]' no es permitido.  Valores permitidos: [ALLOWED].",
         "property_path": "La ruta del valor que falló es [PATH].",
         "not_allow_null_in_object": "El valor para '[ID]' no puede ser nulo.",
-        "not_allow_null_in_array": "Valor dentro de '[ID_MASTER]' no puede ser nulo."
+        "not_allow_null_in_array": "Valor dentro de '[ID_MASTER]' no puede ser nulo.",
+        "fail_try_parse_in_object": "El tipo para '[ID]' debe ser '[TYPE]'.  Tratar de convertit al '[TYPE]' también falló.",
+        "fail_try_parse_in_array": "Elementos dentro de '[ID_MASTER]' deben ser de tipo '[TYPE]'.  Tratar de convertit al '[TYPE]' también falló."
     },
     "bad_configuration": {
         "not_found_regex_type": "El tipo de expresión regular es indefinida.",

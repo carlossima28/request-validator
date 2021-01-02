@@ -27,7 +27,9 @@
         "wrong_allowed_value_in_array": "The value for an element inside of '[ID_MASTER]' is not allowed.  Allowed values: [ALLOWED].",
         "property_path": "The path of the fail value is [PATH].",
         "not_allow_null_in_object": "The value for '[ID]' cannot be null.",
-        "not_allow_null_in_array": "Value inside of '[ID_MASTER]' cannot be null."
+        "not_allow_null_in_array": "Value inside of '[ID_MASTER]' cannot be null.",
+        "fail_try_parse_in_object": "The type for '[ID]' must be '[TYPE]'.  Try to convert to '[TYPE]' also failed.",
+        "fail_try_parse_in_array": "A value inside of '[ID_MASTER]' must be '[TYPE]'.  Try to convert to '[TYPE]' also failed."
     },
     "bad_configuration": {
         "not_found_regex_type": "The regex type is undefined",

@@ -44,6 +44,7 @@ Parameter **properties** is an object that describes how parameters need to be. 
 
 * **id**: String property name.
 * **type**: String property type.  Allowed values: string, number, boolean, object and array.
+* **try_parse**: Boolean property type.  If the current type is different to the target type, it will try to convert.
 * **default_value**: Default value for a property in case that it is undefined.
 * **allowed**: Array with the allowed values.  Only for number and string type.
 * **allow_single**: Boolean indicating if the value of an array can be directly an element type of the array, so in this case the value will automatically be inside an array when the parameter is processed.  Only for the array type.

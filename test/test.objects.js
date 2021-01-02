@@ -723,6 +723,25 @@ obj = {
           type: 'string'
         }]
       }]
+    },
+    "success-parse-string-number": {
+      config: {
+        remove_unknown: false
+      },
+      resp: {
+        status: true,
+        message: "OK",
+        data: {
+          item: 2
+        }
+      },
+      param: [{
+        item: "2"
+      }, {
+        id: "item",
+        type: 'number',
+        try_parse: true
+      }]
     }
   },
   fail: {
@@ -1225,6 +1244,22 @@ obj = {
           id: 'value',
           type: 'string'
         }]
+      }]
+    },
+    "fail-parse-string-number": {
+      config: {
+        remove_unknown: false
+      },
+      resp: {
+        status: false,
+        message: "The type for 'item' must be 'number'.  Try to convert to 'number' also failed.  The path of the fail value is root['item']."
+      },
+      param: [{
+        item: "S"
+      }, {
+        id: "item",
+        type: 'number',
+        try_parse: true
       }]
     }
   },

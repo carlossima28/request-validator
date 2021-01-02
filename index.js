@@ -17,7 +17,7 @@ module.exports = class RequestValidator {
     };
 
     if (config) {
-      this.config.languague = config.languague? config.languague : this.config.languague;
+      this.config.languague = config.languague ? config.languague : this.config.languague;
       this.config.remove_unknown = config.remove_unknown === true ? config.remove_unknown : this.remove_unknown;
       this.config.regex = config.regex === undefined ? this.config.regex : config.regex;
     }
@@ -141,22 +141,79 @@ module.exports = class RequestValidator {
         case 'boolean':
         case 'number':
           if (typeof (param[prop.id]) !== prop.type) {
-            this.setThrow(Msg(this.config.languague).bad_request.not_match_type_in_object, prop);
+            this.tryParse(param, prop, true);
           }
           break;
         case 'object':
           if (typeof (param[prop.id]) !== prop.type || Array.isArray(param[prop.id])) {
-            this.setThrow(Msg(this.config.languague).bad_request.not_match_type_in_object, prop);
+            this.tryParse(param, prop, true);
           }
           break;
         case 'array':
           if (!Array.isArray(param[prop.id])) {
-            this.setThrow(Msg(this.config.languague).bad_request.not_match_type_in_object, prop);
+            this.tryParse(param, prop, true);
           }
           break;
         default:
           this.setThrow(Msg(this.config.languague).bad_request.unknown_type, prop);
           break;
+      }
+    }
+  }
+
+  tryParse(param, prop, is_object) {
+    let type = typeof(param[prop.id]);
+    if (prop.try_parse) {
+      try {
+        if (type == "string" && prop.type == "number") {
+          param[prop.id] = parseFloat(param[prop.id]);
+          if(isNaN(param[prop.id])){
+            throw 401;
+          }
+        } else if (type == "number" && prop.type == "string") {
+          param[prop.id] = param[prop.id].toString();
+        } else if (type == "boolean" && prop.type == "string") {
+          param[prop.id] = param[prop.id].toString();
+        } else if (type == "object" && prop.type == "string") {
+          param[prop.id] = JSON.stringify(param[prop.id]);
+        } else if (type == "string" && prop.type == "boolean") {
+          if (param[prop.id] == "true") {
+            param[prop.id] = true;
+          } else if (param[prop.id] == "false") {
+            param[prop.id] = false;
+          } else {
+            throw 401;
+          }
+        } else if (type == "string" && (prop.type == "object" || prop.type == "array")) {
+          param[prop.id] = JSON.parse(param[prop.id]);
+          if (Array.isArray(param[prop.id]) && prop.type != "array") {
+            throw 401;
+          }
+        } else if (type == "number" && prop.type == "boolean") {
+          if (param[prop.id] == 1) {
+            param[prop.id] = true;
+          } else if (param[prop.id] == 0) {
+            param[prop.id] = false;
+          } else {
+            throw 401;
+          }
+        } else if (type == "boolean" && prop.type == "number") {
+          param[prop.id] = true ? 1 : 0;
+        } else {
+          this.setThrow(Msg(this.config.languague).bad_request.fail_try_parse_in_object, prop);
+        }
+      } catch (err) {
+        if (is_object) {
+          this.setThrow(Msg(this.config.languague).bad_request.fail_try_parse_in_object, prop);
+        } else {
+          this.setThrow(Msg(this.config.languague).bad_request.not_match_type_in_array, prop);
+        }
+      }
+    } else {
+      if (is_object) {
+        this.setThrow(Msg(this.config.languague).bad_request.not_match_type_in_object, prop);
+      } else {
+        this.setThrow(Msg(this.config.languague).bad_request.not_match_type_in_array, prop);
       }
     }
   }
@@ -168,17 +225,17 @@ module.exports = class RequestValidator {
         case 'boolean':
         case 'number':
           if (typeof (param[prop.id]) !== prop.type) {
-            this.setThrow(Msg(this.config.languague).bad_request.not_match_type_in_array, prop);
+            this.tryParse(param, prop, false);
           }
           break;
         case 'object':
           if (typeof (param[prop.id]) !== prop.type || Array.isArray(param[prop.id])) {
-            this.setThrow(Msg(this.config.languague).bad_request.not_match_type_in_array, prop);
+            this.tryParse(param, prop, false);
           }
           break;
         case 'array':
           if (!Array.isArray(param[prop.id])) {
-            this.setThrow(Msg(this.config.languague).bad_request.not_match_type_in_array, prop);
+            this.tryParse(param, prop, false);
           }
           break;
         default:
