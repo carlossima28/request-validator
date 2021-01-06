@@ -1,7 +1,7 @@
 {
   "name": "request-validator-csima",
   "version": "1.0.15",
-  "description": "Extension to make web request validations easier",
+  "description": "Extension to validate objects easier",
   "main": "index.js",
   "scripts": {
     "test": "mocha test/test.js"
