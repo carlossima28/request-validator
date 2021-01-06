@@ -1,6 +1,6 @@
 {
   "name": "request-validator-csima",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Extension to make web request validations easier",
   "main": "index.js",
   "scripts": {

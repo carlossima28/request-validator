@@ -15,8 +15,8 @@ var validation_response = request_validator.validate(parameters, properties, ext
 
 Parameter **configuration** is an object with the following properties.
 
-* **languague**: String languague to use for messages response.  Available: English(**english**) and Spanish(**spanish**)
-* **remove_unknown**: Boolean indicating if in the processed parameters, properties not recognized or properties with the the **required** flag as false would be removed.
+* **language**: String language to use for messages response.  Available: English(**english**) and Spanish(**spanish**).
+* **remove_unknown**: Boolean indicating if in the processed parameters, properties not recognized or properties with the the **required** flag as false would be removed.  Properties with a final value will not be removed.
 * **regex**: JSON object with the following format example:
 
 ```sh
@@ -63,6 +63,7 @@ Parameter **properties** is an object that describes how parameters need to be. 
 * **max_value**: Maximum value allowed.  Only for number type.
 * **exact_length**: Exact number of characteres.  Only for string type.
 * **required**: Boolean indicating if the value is necessary and if it will be evaluated.
+* **final_value**: Any type of value to final assing to the property if it is not required.
 
 A referential operation is when a property depends on other operation.  To do this the value must be a string that starts and ends with `|`.  To make a reference in the operation for the parameters you need to use `$`.  The resulting value will be the assigned value.  Only available for the property `required`, `allow_undefined` and `allow_null`.  Example:
 

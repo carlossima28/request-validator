@@ -742,6 +742,31 @@ obj = {
         type: 'number',
         try_parse: true
       }]
+    },
+    "success-final_value-string": {
+      config: {
+        remove_unknown: false
+      },
+      resp: {
+        status: true,
+        message: "OK",
+        data: {
+          item1: "A",
+          item2: "C"
+        }
+      },
+      param: [{
+        item1: "A",
+        item2: "B"
+      }, [{
+        id: "item1",
+        type: 'string'
+      }, {
+        id: "item2",
+        type: 'string',
+        required: "|!($.item1 == 'A')|",
+        final_value: "C"
+      }]]
     }
   },
   fail: {
